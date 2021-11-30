@@ -1,0 +1,44 @@
+---- Inistialiser sur VBox ----
+1 / Iso Debian : https://www.debian.org/download
+2 / Machine name : arudy42, Machine folder : sgoinfre/VM , Linux, Debian 64 bits
+3 / RAM 1024mb
+4 / Create hard disk now
+5 / VDI
+6 / Dynamically allocated
+7 / Sgoinfre , 8gb
+
+---- Ajouter l'iso à la VM ----
+1 / Settings
+2 / Storage
+3 / Controller:IDE - Empty
+4 / Optical Drive
+5 / Chose a disk file
+
+---- Installation ---
+1 / Choisir install
+2 / English : langue de l'Installation
+3 / France : Pays de notre VM
+4 / USA - American english pour le keyboard
+5 / Hostname : arudy42
+6 / Configure Network : laisser blanc, pas de NDD à confgurer
+7 / Root psw : MDP intra / Confirmer a nouveau ensuite
+8 / Nom Complet : Arthur Rudy, pour un second user
+9 / Login : arudy
+10 / MDP intra / Confirmer ensuite le MDP
+11 / Guided - use entire disk qnd setup encrypted LVM
+12 / Next
+13 / Separate home, pour partitionner ensuite
+14 / Passphrase = MDP / Confirmer
+15 / Ecrire max pour donner la full size du disque
+16 / Finish partitioning
+17 / Yes
+18 / Scan extra installation media  / No
+19 / Deb archive mirror config : France
+20 / ded.debian.org
+21 / Blank for proxy
+22 / ? Message d'erreure ?
+23 / Partagede donnees ? No
+24 / System minimal blabla
+25 / Installer Grub : Yes. Pour lancer l'OS au demarrage
+26 / dev/sda pour installer le grub
+
