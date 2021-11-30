@@ -41,4 +41,52 @@
 24 / System minimal blabla
 25 / Installer Grub : Yes. Pour lancer l'OS au demarrage
 26 / dev/sda pour installer le grub
+27 / Continue
+
+---- Redemarrer la VM ----
+1 / MDP intra
+2 / arudy
+3 / MDP intra
+
+Fin installation, prompt terminal = arudy@arudy42
+----------------------------------------------------------------------------------------
+
+---- Setup Sudo ----
+1 / (Se mettre en superuser cmd = su)
+2 / apt-get install sudo
+2 / apt-get update / apt-get upgrade
+3 / sudo visudo : Acceder au fichier user sudo
+4 / Ajouter la ligne "arudy	ALL=(ALL:ALL) ALL" en dessous de root
+
+---- Setup serveur SSH ----
+
+1 / sudo apt-get install openssh-server (deja installé normalement)
+2 / sudo systemctl status sshd
+3 / cd /etc/ssh
+4 / vi sshd_config
+5 / 
+
+------------ CMD ---------
+lsblk = Afficher les periph bloc, sans la ram, en arbo. --help pour avoir le detail des colonnes
+
+LVM(logical volumes manager) = https://www.linuxtricks.fr/wiki/lvm-sous-linux-volumes-logiques
+
+apt-cache policy openssh-server = Checker si openSSH est installé sur le serveur
+
+sudo reboot
+sudo systemctl poweroff
+
+
+---------- DOCS --------
+
+https://www.debian.org/ = pour l'iso debian
+
+Diff entre apt et aptitude = Ce sont deux interfaces diff de dpkg (gestionnaire de paquets), aptitude + récent et plus facile à utiliser. Evite apt-get... J'ai tjrs utiliser apt perso. https://www.it-swarm-fr.com/fr/apt/quelle-est-la-difference-entre-apt-get-et-aptitude/961623026/
+
+SSH (Secure SHell) = https://www.it-connect.fr/modules/introduction-a-ssh/
+openssh = App à l'écoute des connexions entrantes du server
+
+OCR SSH https://openclassrooms.com/fr/courses/43538-reprenez-le-controle-a-laide-de-linux/41773-la-connexion-securisee-a-distance-avec-ssh
+
+
 
