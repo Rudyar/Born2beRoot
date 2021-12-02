@@ -197,11 +197,60 @@ Sinon utiliser 'ip addr'
 
 # ---- Ajouter un user ----
 
-
+1 / adduser "username"
 
 # ---- Politique de password forte ----
 
+1 / sudo apt-get install libpam-pwquality
 
+2 / sudo cp /etc/pam.d/common-password /etc/pam.d/common-password-backup = Backup du fichier common-password au cas ou
+
+3 / sudo vim /etc/pam.d/common-password = Ouvrir le fichier de config de pw
+
+4 / Modifier la ligne password requisite avec :
+
+minlen=10 : Longueure min du mdp
+
+ucredit=-1 : Au moins une maj
+
+dcredit=-1 : Au moins un chiffre
+
+maxrepeat=3 : Max 3 chars identiques à la suite
+
+reject_username : pas username dans le mdp
+
+enfore_for_root : Regles appliauees au root
+
+difok=3 : Au moins 7 chars diff de l'ancien mdp (vus aue taille min 10)
+
+### Changement frequence modif de mdp
+
+5 / sudo vim /etc/login.defs
+
+6 / Modifier lignes : PASS_MAX_DAYS	30 ; PASS_MIN_DAYS	2 ; PASS_WARN_AGE	7
+
+7 / sudo passwd -e arudy = Forcer tous les users à changer leur mdp à la prochaine connexion ?????
+
+# ---- Politique de mdp & logs sudo ----
+
+1 / sudo visudo
+
+2 / Defaults        passwd_tries=5 : Ajouter cette ligne
+
+3 / Defaults	    insults : Ajouter celle la
+
+4 / Ajouter "/snap" avant le dernier "bin" dans la ligne secure_path
+
+
+# ---- Fichier log sudo ----
+
+1 / cd /var/log
+
+2 / mkdir sudo && cd sudo && touch sudo.log
+
+3 / sudo visudo
+
+4 / Defaults	logfile="/var/log/sudo/sudo/log"
 
 
 # ---- CMD ----
@@ -220,6 +269,7 @@ ss -tulnp pour voir les ports ouvert de la machine (t = ports tcp, u = port udp,
 
 sudo ufw enable / disable / reset
 
+ping google.com
 
 # ---------- DOCS --------
 
@@ -250,5 +300,13 @@ Groupes et users : https://devconnected.com/how-to-list-users-and-groups-on-linu
 https://openclassrooms.com/fr/courses/43538-reprenez-le-controle-a-laide-de-linux/39044-les-utilisateurs-et-les-droits
 
 Gestion de MDP fort avec pwquality: https://blog.malandra.be/forcer-lutilisation-de-mot-de-passe-complexe/
-https://debian-facile.org/doc:securite:passwd:libpam-pwquality
+https://linux.die.net/man/8/pam_pwquality
 PAM : https://fr.wikipedia.org/wiki/Pluggable_Authentication_Modules
+
+Changement de mdp regulier : https://blog.malandra.be/forcer-le-changement-regulier-de-mot-de-passe-sous-linux/
+
+Adduser : https://doc.ubuntu-fr.org/adduser
+
+tty : affiche sur le terminal (sortie standard) le nom du fichier de l'entree standard. (Pas vraiment compris le truc...)
+https://fr.wikipedia.org/wiki/Tty_(Unix) 
+
