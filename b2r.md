@@ -239,7 +239,9 @@ difok=3 : Au moins 7 chars diff de l'ancien mdp (vus aue taille min 10)
 
 3 / Defaults	    insults : Ajouter celle la
 
-4 / Ajouter "/snap" avant le dernier "bin" dans la ligne secure_path
+4 / Defaults	    requiretty
+
+5 / Ajouter "/snap" avant le dernier "bin" dans la ligne secure_path
 
 
 # ---- Fichier log sudo ----
@@ -251,6 +253,8 @@ difok=3 : Au moins 7 chars diff de l'ancien mdp (vus aue taille min 10)
 3 / sudo visudo
 
 4 / Defaults	logfile="/var/log/sudo/sudo/log"
+
+5 / Defaults	log_input,log_output (Pas sur d'en avoir besoin)
 
 
 # ---- CMD ----
@@ -308,5 +312,21 @@ Changement de mdp regulier : https://blog.malandra.be/forcer-le-changement-regul
 Adduser : https://doc.ubuntu-fr.org/adduser
 
 tty : affiche sur le terminal (sortie standard) le nom du fichier de l'entree standard. (Pas vraiment compris le truc...)
-https://fr.wikipedia.org/wiki/Tty_(Unix) 
+https://fr.wikipedia.org/wiki/Tty_(Unix)
+
+Sudo log : https://www.tekfik.com/kb/linux/advance-linux/sudo-log-configuration-on-linux
+
+ram usage : https://www.cyberciti.biz/faq/linux-check-memory-usage/
+https://www.binarytides.com/linux-command-check-memory-usage/
+
+
+# ---- A checker avant la soutenance ----
+
+swap
+
+tty
+
+lvm
+
+
 
