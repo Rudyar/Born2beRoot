@@ -139,6 +139,21 @@ Sinon utiliser 'ip addr'
 8 / sudo systemctl status ssh
 
 
+# ---- Passer en ip statique ----
+
+Passage en static pour kill le port 68
+
+1 / /etc/network/interface
+        iface enp0s3 inet static
+        address 10.0.2.15 // ifconfig inet = mon ip machine
+        netmask 255.255.255.0 // ifconfig | netmask = masque de sous reseau qui permet de reunir les machines dans le meme reseau
+        broadcast 10.0.2.255 // ifconfig | permet de diffuser un paquet dans notre reseau
+        gateway 10.0.2.2 // A la connexion sur la VM, la derniere adresse passe en paramettre | Passerelle permetant d'acceder a internet > sorte de route pour les paquets
+    Acceder a internet en changeant le resolveur de nom de domaine
+        etc/resolv.conf // changer le serveur dns avec celui de google 8.8.8.8
+    Ajouter l'ip de la machine hote dans la config de VirtualBox
+        ipconfig > inet de la partie enp0s3
+
 # ---- Connexion depuis terminal sur la VM en SSH ----
 
 1 / ss -tunlp : Sur pc hote pour checker les ports utilisé (4242 deja utilisé)
@@ -159,13 +174,11 @@ Sinon utiliser 'ip addr'
 
 3 / sudo ufw app info openSSH -> Port 22/tcp
 
-4 / sudo ufw allow OpenSSH -> Autoriser les connexions entrantes SSH
+4 / sudo ufw enable -> Mettre en route ufw
 
-5 / sudo ufw enable -> Mettre en route ufw
+5 / sudo ufw allow 4242
 
-6 / sudo ufw allow 4242
-
-7 / sudo ufw status numbered -> checker que les ports 4242 sont bien activés, et que ceux là
+6 / sudo ufw status numbered -> checker que les ports 4242 sont bien activés, et que ceux là
 
 
 # ---- Changer hostname ----
@@ -221,7 +234,7 @@ reject_username : pas username dans le mdp
 
 enfore_for_root : Regles appliauees au root
 
-difok=3 : Au moins 7 chars diff de l'ancien mdp (vus aue taille min 10)
+difok=7 : Au moins 7 chars diff de l'ancien mdp
 
 ### Changement frequence modif de mdp
 
@@ -257,6 +270,17 @@ difok=3 : Au moins 7 chars diff de l'ancien mdp (vus aue taille min 10)
 5 / Defaults	log_input,log_output (Pas sur d'en avoir besoin)
 
 
+# ---- Broadcast toutes les 10 min ----
+
+1 / cd /etc
+
+2 / sudo vim crontab
+
+3 / */10 * * * * root bash /etc/init.d/monitoring.sh
+
+5 / Mettre monitoring.sh dans /etc/init.d
+
+
 # ---- CMD ----
 
 lsblk = Afficher les periph bloc, sans la ram, en arbo. --help pour avoir le detail des colonnes
@@ -274,6 +298,8 @@ ss -tulnp pour voir les ports ouvert de la machine (t = ports tcp, u = port udp,
 sudo ufw enable / disable / reset
 
 ping google.com
+
+sudo apt install sysstat : pour avoir le systeme monitoring pas degeu
 
 # ---------- DOCS --------
 
@@ -319,6 +345,13 @@ Sudo log : https://www.tekfik.com/kb/linux/advance-linux/sudo-log-configuration-
 ram usage : https://www.cyberciti.biz/faq/linux-check-memory-usage/
 https://www.binarytides.com/linux-command-check-memory-usage/
 
+awk : https://likegeeks.com/awk-command/
+
+cpu load : https://www.baeldung.com/linux/get-cpu-usage
+
+ether / MAC : https://www.cyberciti.biz/tips/change-or-find-out-display-ethernet-mac.html
+
+ip static : https://www.ionos.fr/assistance/serveurs-et-cloud/serveur-dedie-pour-les-serveurs-achetes-avant-le-28102018/reseau/modifier-ou-ajouter-une-adresse-ipv4-a-un-serveur-dedie-linux/
 
 # ---- A checker avant la soutenance ----
 
@@ -328,5 +361,6 @@ tty
 
 lvm
 
+apparmor
 
-
+static ip
