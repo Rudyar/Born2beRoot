@@ -143,16 +143,49 @@ Sinon utiliser 'ip addr'
 
 Passage en static pour kill le port 68
 
-1 / /etc/network/interface
-        iface enp0s3 inet static
-        address 10.0.2.15 // ifconfig inet = mon ip machine
-        netmask 255.255.255.0 // ifconfig | netmask = masque de sous reseau qui permet de reunir les machines dans le meme reseau
-        broadcast 10.0.2.255 // ifconfig | permet de diffuser un paquet dans notre reseau
-        gateway 10.0.2.2 // A la connexion sur la VM, la derniere adresse passe en paramettre | Passerelle permetant d'acceder a internet > sorte de route pour les paquets
-    Acceder a internet en changeant le resolveur de nom de domaine
-        etc/resolv.conf // changer le serveur dns avec celui de google 8.8.8.8
-    Ajouter l'ip de la machine hote dans la config de VirtualBox
-        ipconfig > inet de la partie enp0s3
+Recup info ip avant de tout commencer !
+
+1 / sudo vim /etc/network/interface
+
+2 / iface enp0s3 inet static && commenter allow-hotplug
+
+3 / address 10.0.2.15 // ifconfig inet = mon ip machine guest
+
+4 / netmask 255.255.255.0 // ifconfig | netmask = masque de sous reseau qui permet de reunir les machines dans le meme reseau
+
+5 /broadcast 10.0.2.255 // ifconfig | permet de diffuser un paquet dans notre reseau
+
+6 / gateway 10.0.2.2 // sudo route -n | Passerelle permetant d'acceder a internet > sorte de route pour les paquets
+    
+Acceder a internet en changeant le resolveur de nom de domaine
+
+1 / etc/resolv.conf 
+domain : 42.fr
+search : 42.fr
+nameserver : 8.8.8.8
+
+Ajouter l'ip de la machine hote dans la config de VirtualBox
+
+1 / ipconfig > inet de la partie enp0s3 (ex : 10.12.7.9)
+
+2 / name : Blabla, Protocol : ?, Host IP : ?, Host port : ?, Guest IP : ?, Guest IP : ?
+
+
+sudo /etc/init.d/networking restart
+
+
+# ---- Networking de base ---- 
+
+/etc/network/interfaces : 
+auto lo
+iface lo inet loopback
+allow-hotplug enp0s3
+iface enp0s3 inet dhcp
+
+/etc/network/interfaces
+domain 42.fr
+search 42.fr
+nameserver 10.0.2.3
 
 # ---- Connexion depuis terminal sur la VM en SSH ----
 
