@@ -53,7 +53,7 @@
 
 10 / MDP intra / Confirmer ensuite le MDP
 
-11 / Guided - use entire disk qnd setup encrypted LVM
+11 / Guided - use entire disk and setup encrypted LVM
 
 12 / Next
 
@@ -147,7 +147,7 @@ Recup info ip avant de tout commencer !
 
 1 / sudo vim /etc/network/interface
 
-2 / iface enp0s3 inet static && commenter allow-hotplug
+2 / iface enp0s3 inet static
 
 3 / address 10.0.2.15 // ifconfig inet = mon ip machine guest
 
@@ -162,16 +162,13 @@ Acceder a internet en changeant le resolveur de nom de domaine
 1 / etc/resolv.conf 
 domain : 42.fr
 search : 42.fr
-nameserver : 8.8.8.8
+nameserver : 8.8.4.4
 
 Ajouter l'ip de la machine hote dans la config de VirtualBox
 
 1 / ipconfig > inet de la partie enp0s3 (ex : 10.12.7.9)
 
-2 / name : Blabla, Protocol : ?, Host IP : ?, Host port : ?, Guest IP : ?, Guest IP : ?
-
-
-sudo /etc/init.d/networking restart
+2 / name : Blabla, Protocol : TCP, Host IP : 10.12.7.9, Host port : 42420, Guest IP : , Guest port : 4242
 
 
 # ---- Networking de base ---- 
@@ -182,10 +179,11 @@ iface lo inet loopback
 allow-hotplug enp0s3
 iface enp0s3 inet dhcp
 
-/etc/network/interfaces
+/etc/resolv.conf
 domain 42.fr
 search 42.fr
 nameserver 10.0.2.3
+
 
 # ---- Connexion depuis terminal sur la VM en SSH ----
 
@@ -220,12 +218,14 @@ nameserver 10.0.2.3
 
 2 / sudo hostnamectl set-hostname [New_Hostname]
 
-3 / hostnamectl = afficher hostname
+(3 / editer /etc/hosts)
+
+4 / hostnamectl = afficher hostname
 
 
 # ---- Gestion user && groupes ----
 
-1 / users = Afficher tous les users de la machine
+1 / users = Afficher tous les users connectés
 
 2 / groups = afficher les groupes d'un user
 
@@ -239,6 +239,7 @@ nameserver 10.0.2.3
 
 7 / getent group (| cut -d: -f1) = lister tous les groupes
 
+(cut -f1 -d: /etc/passwd) = afficher tous les users de la machines
 (adduser arudy sudo en su -)
 
 # ---- Ajouter un user ----
@@ -318,8 +319,6 @@ difok=7 : Au moins 7 chars diff de l'ancien mdp
 
 lsblk = Afficher les periph bloc, sans la ram, en arbo. --help pour avoir le detail des colonnes
 
-apt install vim
-
 apt-cache policy openssh-server = Checker si openSSH est installé sur le serveur
 
 sudo reboot
@@ -333,6 +332,11 @@ sudo ufw enable / disable / reset
 ping google.com
 
 sudo apt install sysstat : pour avoir le systeme monitoring pas degeu
+
+sudo ufw status numbered : Checker ufw
+
+sudo systemctl status(/restart) networking : Checker l'etat du network
+
 
 # ---------- DOCS --------
 
@@ -359,7 +363,6 @@ UFW : https://fr.joecomp.com/how-set-up-firewall-with-ufw-debian-9
 Uncomplicated Firewall, pare feu plus facile a configurer que ceux deja present sur debian. De base UFW bloque toutes les entrees du serveur, sauf celles des ports ouverts biensur, les sortis sont toutes ouvertes.
 
 Groupes et users : https://devconnected.com/how-to-list-users-and-groups-on-linux/
-
 https://openclassrooms.com/fr/courses/43538-reprenez-le-controle-a-laide-de-linux/39044-les-utilisateurs-et-les-droits
 
 Gestion de MDP fort avec pwquality: https://blog.malandra.be/forcer-lutilisation-de-mot-de-passe-complexe/
@@ -370,8 +373,13 @@ Changement de mdp regulier : https://blog.malandra.be/forcer-le-changement-regul
 
 Adduser : https://doc.ubuntu-fr.org/adduser
 
-tty : affiche sur le terminal (sortie standard) le nom du fichier de l'entree standard. (Pas vraiment compris le truc...)
+tty : est une instance de la console racine de la machine, une sorte de console virtuelle
 https://fr.wikipedia.org/wiki/Tty_(Unix)
+
+SELinux : Archi linux qui controle l'acces aux apps fichiers etc... En gros check les autorisations des users qund une requetes est envoyée pour verifier si il a le droit d'y acceder.
+https://www.redhat.com/fr/topics/linux/what-is-selinux
+
+AppArmor : Permet de mettre des secu sur chaque app. (Je ne l'ai pas utilisé).
 
 Sudo log : https://www.tekfik.com/kb/linux/advance-linux/sudo-log-configuration-on-linux
 
@@ -386,14 +394,4 @@ ether / MAC : https://www.cyberciti.biz/tips/change-or-find-out-display-ethernet
 
 ip static : https://www.ionos.fr/assistance/serveurs-et-cloud/serveur-dedie-pour-les-serveurs-achetes-avant-le-28102018/reseau/modifier-ou-ajouter-une-adresse-ipv4-a-un-serveur-dedie-linux/
 
-# ---- A checker avant la soutenance ----
 
-swap
-
-tty
-
-lvm
-
-apparmor
-
-static ip
